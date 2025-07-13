@@ -13,6 +13,7 @@ export default function Home() {
       <main className="h-full w-full">
         <ChatContainer />
       </main>
+      
     </div>
   );
 }
