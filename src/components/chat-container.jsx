@@ -1,8 +1,9 @@
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { BrushCleaning } from "lucide-react";
-import ChatMessage from "@/components/chat-message";
+import { ChatMessage } from "@/components/chat-message";
 import ChatInput from "@/components/chat-input";
+
 export function ChatContainer() {
   return (
     <Card className="p-0 h-full flex flex-col gap-0">
@@ -20,7 +21,16 @@ export function ChatContainer() {
         </Button>
       </div>
 
-      <ChatMessage />
+      <div className="overflow-auto p-3 ">
+        <ChatMessage 
+          content={"Hi, my name is abd"}
+          isUser={true} 
+        />
+        <ChatMessage 
+          content={"Hello abd, how r u?"}
+          isUser={false} 
+        />
+      </div>
       <ChatInput />
     </Card>
   );
