@@ -6,7 +6,7 @@ import ChatInput from "@/components/chat-input";
 
 export function ChatContainer() {
   return (
-    <Card className="p-0 h-full flex flex-col gap-0">
+    <div className="p-0 h-full flex flex-col gap-0">
       <div className="flex justify-between items-center p-3 border-b">
         <div className="flex items-center gap-3">
           <img
@@ -19,9 +19,9 @@ export function ChatContainer() {
         <Button variant="outline">
           <BrushCleaning />
         </Button>
-      </div>
-
-      <div className="overflow-auto p-3 ">
+      </div>      
+      
+      <div className="overflow-auto p-3 flex-1">
         <ChatMessage 
           content={"Hi, my name is abd"}
           isUser={true} 
@@ -32,6 +32,6 @@ export function ChatContainer() {
         />
       </div>
       <ChatInput />
-    </Card>
+    </div>
   );
 }
