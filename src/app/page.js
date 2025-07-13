@@ -3,15 +3,13 @@ import { Button } from "@/components/ui/button";
 
 export default function Home() {
   return (
-    <div className="h-screen  w-screen overflow-hidden flex flex-col p-4">
+    <div className="h-screen w-screen overflow-hidden flex flex-col items-center">
       
-      <div className="flex justify-end gap-2 mb-4">
+      <div className="flex justify-end gap-2 mb-4 w-full p-4">
         <Button variant="outline">Signup</Button>
         <Button>Login</Button>
       </div>
       
-      <main className="h-full w-full max-w-2xl mx-auto">
-    <div className="h-screen w-screen overflow-hidden flex flex-col items-center">
       <main className="h-full w-full">
         <ChatContainer />
       </main>
