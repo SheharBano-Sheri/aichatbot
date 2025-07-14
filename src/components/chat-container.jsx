@@ -1,10 +1,35 @@
+"use client";
+
 import { Button } from "@/components/ui/button";
-import { Card } from "@/components/ui/card";
 import { BrushCleaning } from "lucide-react";
 import { ChatMessage } from "@/components/chat-message";
 import ChatInput from "@/components/chat-input";
+import { useState } from "react";
+
 
 export function ChatContainer() {
+
+  const [messages, setMessages] = useState([]);
+
+  const onSubmit = async (message) => {
+
+    const userMessage = { content: message, isUser: true };
+    setMessages((prevMessages) => [...prevMessages, userMessage]);
+
+    const response = await fetch("/api/chat", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ message }),
+    });
+
+    const data = await response.json();
+    
+    const aiMessage = { content: data, isUser: false };
+    setMessages((prevMessages) => [...prevMessages, aiMessage]);
+  };
+
   return (
     <div className="p-0 h-full flex flex-col gap-0">
       <div className="flex justify-between items-center p-3 border-b">
@@ -16,22 +41,27 @@ export function ChatContainer() {
           />
           <p className="text-xl font-semibold">Chat</p>
         </div>
-        <Button variant="outline">
+        <Button variant="outline" onClick={() => setMessages([])}>
           <BrushCleaning />
         </Button>
       </div>      
       
       <div className="overflow-auto p-3 flex-1">
-        <ChatMessage 
-          content={"Hi, my name is abd"}
-          isUser={true} 
-        />
-        <ChatMessage 
-          content={"Hello abd, how r u?"}
-          isUser={false} 
-        />
+        {messages.length === 0 ? (
+          <div className="flex h-full items-center justify-center text-muted-foreground">
+            Start a conversation
+          </div>
+        ) : (
+          messages.map((message, index) => (
+            <ChatMessage 
+              key={index}
+              content={message.content}
+              isUser={message.isUser} 
+            />
+          ))
+        )}
       </div>
-      <ChatInput />
+      <ChatInput onSubmit={onSubmit} />
     </div>
   );
 }

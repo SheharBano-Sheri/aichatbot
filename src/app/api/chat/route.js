@@ -11,4 +11,3 @@ export async function POST(request) {
   });
   return Response.json(response.text);
 }
-

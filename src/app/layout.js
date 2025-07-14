@@ -21,15 +21,13 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <SidebarProvider>
-        <AppSidebar />
-          <body
-            className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-          >
-            <SidebarTrigger className="fixed top-4 left-4 z-50" />
-            {children}
-          </body>
-      </SidebarProvider>
+      <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
+        <SidebarProvider>
+          <AppSidebar />
+          <SidebarTrigger className="fixed top-4 left-4 z-50" />
+          {children}
+        </SidebarProvider>
+      </body>
     </html>
   );
 }

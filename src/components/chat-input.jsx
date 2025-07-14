@@ -4,23 +4,16 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useState } from "react";
 
-export default function ChatInput() {
+export default function ChatInput({ onSubmit }) {
   const [message, setMessage] = useState("");
 
   const handleSubmit = async (e) => {
-      e.preventDefault();
+    e.preventDefault();
 
-      const response = await fetch("/api/chat", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ message }),
-      });
-
-      const data = await response.json();
-
-      setMessage(data);
+    if (message.trim()) {
+      onSubmit(message);
+      setMessage("");
+    }
   };
 
   return (
