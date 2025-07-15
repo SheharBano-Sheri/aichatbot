@@ -4,13 +4,22 @@ import { Button } from "@/components/ui/button";
 import { BrushCleaning } from "lucide-react";
 import { ChatMessage } from "@/components/chat-message";
 import ChatInput from "@/components/chat-input";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 
 export function ChatContainer() {
 
   const [messages, setMessages] = useState([]);
 
+  useEffect(() => {
+    const fetchConversation = async () => {
+      const response = await fetch("/api/conversation");
+      const data = await response.json();
+      setMessages(data);
+    };
+    
+    fetchConversation();
+  }, []);
   const onSubmit = async (message) => {
 
     const userMessage = { content: message, isUser: true };
@@ -21,13 +30,24 @@ export function ChatContainer() {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ message }),
+      body: JSON.stringify({ message, messages }),
     });
 
     const data = await response.json();
     
     const aiMessage = { content: data, isUser: false };
     setMessages((prevMessages) => [...prevMessages, aiMessage]);
+    
+    await fetch("/api/conversation", {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ 
+        userMessage: message, 
+        aiMessage: data 
+      }),
+    });
   };
 
   return (
@@ -38,10 +58,15 @@ export function ChatContainer() {
             src="https://api.dicebear.com/7.x/initials/svg?seed=SB"
             alt="myavatarr"
             className="w-8 h-8 rounded-full"
-          />
+          />          
           <p className="text-xl font-semibold">Chat</p>
         </div>
-        <Button variant="outline" onClick={() => setMessages([])}>
+        <Button 
+          variant="outline" 
+          onClick={async () => {
+            setMessages([]);
+            await fetch("/api/conversation", { method: "DELETE" });
+        }}>
           <BrushCleaning />
         </Button>
       </div>      
