@@ -53,12 +53,7 @@ export function ChatContainer() {
   return (
     <div className="p-0 h-full flex flex-col gap-0">
       <div className="flex justify-between items-center p-3 border-b">
-        <div className="flex items-center gap-3">
-          <img
-            src="https://api.dicebear.com/7.x/initials/svg?seed=SB"
-            alt="myavatarr"
-            className="w-8 h-8 rounded-full"
-          />          
+        <div className="flex items-center gap-3">        
           <p className="text-xl font-semibold">Chat</p>
         </div>
         <Button 
