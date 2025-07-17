@@ -4,24 +4,21 @@ import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger, DropdownMenuSeparator } from "@/components/ui/dropdown-menu";
-import { MessageCircle, LogOut, User } from "lucide-react";
+import { LogOut } from "lucide-react";
 import Link from "next/link";
 
 export function NavBar() {
   const [user, setUser] = useState(null);
 
   useEffect(() => {
-    localStorage.setItem("user", JSON.stringify({
-      email: "user@example.com"
-    }));
-    const user = localStorage.getItem("user");
-    if (user) {
-      setUser(JSON.parse(user));
+    const userEmail = localStorage.getItem("userEmail");
+    if (userEmail) {
+      setUser({ email: userEmail });
     }
   }, []);
 
   const handleLogout = () => {
-    localStorage.removeItem("user");
+    localStorage.removeItem("userEmail");
     setUser(null);
   };
 
