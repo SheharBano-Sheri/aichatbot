@@ -49,24 +49,9 @@ export function ChatContainer() {
       }),
     });
   };
-
   return (
-    <div className="p-0 h-full flex flex-col gap-0">
-      <div className="flex justify-between items-center p-3 border-b">
-        <div className="flex items-center gap-3">        
-          <p className="text-xl font-semibold">Chat</p>
-        </div>
-        <Button 
-          variant="outline" 
-          onClick={async () => {
-            setMessages([]);
-            await fetch("/api/conversation", { method: "DELETE" });
-        }}>
-          <BrushCleaning />
-        </Button>
-      </div>      
-      
-      <div className="overflow-auto p-3 flex-1">
+    <div className="flex flex-col h-full w-full">      
+      <div className="flex-1 overflow-y-auto p-3">
         {messages.length === 0 ? (
           <div className="flex h-full items-center justify-center text-muted-foreground">
             Start a conversation

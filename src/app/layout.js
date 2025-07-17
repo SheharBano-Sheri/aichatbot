@@ -1,5 +1,4 @@
-import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
-import { AppSidebar } from "@/components/app-sidebar";
+import SidebarWrapper from "@/components/sidebar-wrapper";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 
@@ -22,11 +21,9 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased overflow-hidden`}>
-        <SidebarProvider>
-          <AppSidebar />
-          <SidebarTrigger className="fixed top-4 left-4 z-50" />
-          <main className="flex flex-1 h-screen w-full overflow-hidden">{children}</main>
-        </SidebarProvider>
+        <SidebarWrapper>
+          {children}
+        </SidebarWrapper>
       </body>
     </html>
   );
