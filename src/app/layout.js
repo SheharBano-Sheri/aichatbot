@@ -1,3 +1,4 @@
+import { ThemeProvider } from "next-themes";
 import SidebarWrapper from "@/components/sidebar-wrapper";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
@@ -19,11 +20,13 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased overflow-hidden`}>
-        <SidebarWrapper>
-          {children}
-        </SidebarWrapper>
+        <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+          <SidebarWrapper>
+            {children}
+          </SidebarWrapper>
+        </ThemeProvider>
       </body>
     </html>
   );
