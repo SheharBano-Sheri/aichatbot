@@ -6,6 +6,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger, DropdownMenuSeparator } from "@/components/ui/dropdown-menu";
 import { LogOut } from "lucide-react";
 import Link from "next/link";
+import { ModeToggle } from "./mode-toggle";
 
 export function NavBar() {
   const [user, setUser] = useState(null);
@@ -27,7 +28,7 @@ export function NavBar() {
   };
 
   return (
-    <nav className="flex items-center justify-between p-4 border-b bg-background">
+    <nav className="flex items-center justify-between p-4 border-b bg-background gap-2">
       <div className="flex items-center gap-4 flex-1 justify-center">
         <h1 className="text-lg">What is AI?</h1>
       </div>
@@ -70,6 +71,7 @@ export function NavBar() {
           </>
         )}
       </div>
+      <ModeToggle />
     </nav>
   );
 }
