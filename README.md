@@ -1,40 +1,58 @@
-### Our plan
+# AI Chatbot
 
-![alt text](plan/image.png)
+![Mockup Image](screenshots/screenshot_1.png)
 
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+Modern AI chatbot with Next.js 15, React 19, and Google Gemini AI.
 
-## Getting Started
+## Live Demo
 
-First, run the development server:
+[Live Demo](https://aichatbot-khaki-three.vercel.app/)
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## Features
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+- 🤖 AI conversations with Google Gemini
+- 👤 User authentication 
+- 💬 Multiple chat sessions
+- 🌓 Dark/light theme
+- 📱 Responsive design
+- 💾 MongoDB storage
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+## Tech Stack
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- Next.js 15, React 19, Tailwind CSS
+- MongoDB, Google Gemini AI
+- Radix UI components
 
-## Learn More
+## Quick Start
 
-To learn more about Next.js, take a look at the following resources:
+1. **Clone and install**
+   ```bash
+   git clone https://github.com/SheharBano-Sheri/aichatbot/.git
+   cd aichatbot
+   npm install
+   ```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+2. **Environment setup**
+   ```bash
+   copy .env.example .env.local
+   ```
+   
+   Add to `.env.local`:
+   ```env
+   GEMINI_API_KEY=your_google_gemini_api_key_here
+   MONGODB_URI=your_mongodb_uri_here
+   MONGODB_DB=your_database_name_here
+   ```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+3. **Run**
+   ```bash
+   npm run dev
+   ```
 
-## Deploy on Vercel
+## Deployment
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Deploy to Vercel: Push to GitHub, connect to Vercel, add environment variables.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## License
+
+MIT License

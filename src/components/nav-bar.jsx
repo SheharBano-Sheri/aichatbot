@@ -7,20 +7,46 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigge
 import { LogOut } from "lucide-react";
 import Link from "next/link";
 import { ModeToggle } from "./mode-toggle";
+import { useChat } from "@/components/chat-provider";
 
 export function NavBar() {
   const [user, setUser] = useState(null);
+  const [currentChatTitle, setCurrentChatTitle] = useState("");
+  const { currentChatId, userEmail, refreshChats } = useChat();
 
   useEffect(() => {
     const userEmail = localStorage.getItem("userEmail");
     if (userEmail) {
       setUser({ email: userEmail });
+    } else {
+      window.location.href = "/login";
     }
   }, []);
+  useEffect(() => {
+    if (currentChatId && userEmail) {
+      fetchCurrentChatTitle();
+    } else {
+      setCurrentChatTitle("");
+    }
+  }, [currentChatId, userEmail, refreshChats]);
 
+  const fetchCurrentChatTitle = async () => {
+    try {
+      const response = await fetch(`/api/chat?userEmail=${encodeURIComponent(userEmail)}`);
+      const chats = await response.json();
+      const currentChat = chats.find(chat => chat._id === currentChatId);
+      if (currentChat) {
+        setCurrentChatTitle(currentChat.title);
+      }
+    } catch (error) {
+      console.error("Error fetching chat title:", error);
+      setCurrentChatTitle("");
+    }
+  };
   const handleLogout = () => {
     localStorage.removeItem("userEmail");
     setUser(null);
+    window.location.href = "/login";
   };
 
   const getInitials = (email) => {
@@ -28,9 +54,8 @@ export function NavBar() {
   };
 
   return (
-    <nav className="flex items-center justify-between p-4 border-b bg-background gap-2">
-      <div className="flex items-center gap-4 flex-1 justify-center">
-        <h1 className="text-lg">What is AI?</h1>
+    <nav className="flex items-center justify-between p-4 border-b bg-background gap-2">      <div className="flex items-center gap-4 flex-1 justify-center">
+        <h1 className="text-lg">{currentChatTitle}</h1>
       </div>
 
       <div className="flex items-center gap-2">
