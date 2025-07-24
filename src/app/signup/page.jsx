@@ -35,8 +35,8 @@ export default function Signup() {
   };
 
   return (
-    <div className="flex min-h-screen items-center justify-center flex-col">
-      <Card className="w-[400px] mt-15">
+    <div className="flex min-h-screen items-center justify-center">
+      <Card className="w-[400px]">
         <CardHeader>
           <CardTitle>Create a new account</CardTitle>
           <CardDescription>Enter your details below to create a new account</CardDescription>
