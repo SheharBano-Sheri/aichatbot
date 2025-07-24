@@ -1,5 +1,6 @@
 import { ThemeProvider } from "next-themes";
 import SidebarWrapper from "@/components/sidebar-wrapper";
+import { ChatProvider } from "@/components/chat-provider";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 
@@ -23,9 +24,11 @@ export default function RootLayout({ children }) {
     <html lang="en" suppressHydrationWarning>
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased overflow-hidden`}>
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-          <SidebarWrapper>
-            {children}
-          </SidebarWrapper>
+          <ChatProvider>
+            <SidebarWrapper>
+              {children}
+            </SidebarWrapper>
+          </ChatProvider>
         </ThemeProvider>
       </body>
     </html>

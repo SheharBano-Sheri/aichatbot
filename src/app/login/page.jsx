@@ -24,7 +24,7 @@ export default function Login() {
     e.preventDefault();
     setError(""); 
 
-    const response = await fetch("/api/auth", {
+    const response = await fetch("/api/auth/signin", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

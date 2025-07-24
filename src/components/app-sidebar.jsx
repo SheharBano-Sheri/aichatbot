@@ -1,21 +1,97 @@
+"use client";
+
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Sidebar, SidebarContent, SidebarHeader, SidebarGroup, SidebarGroupLabel, SidebarGroupContent, SidebarMenu, SidebarMenuButton, SidebarMenuItem, SidebarMenuAction, SidebarTrigger } from "@/components/ui/sidebar";
 import { Plus, Trash2 } from "lucide-react";
+import { useChat } from "@/components/chat-provider";
 
-export function AppSidebar() {
-  const chats = [
-    { id: 1, title: "What is AI?", isActive: true },
-    { id: 2, title: "How to use Next.js?", isActive: false },
-    { id: 3, title: "MongoDB Connection", isActive: false },
-    { id: 4, title: "JavaScript Promises", isActive: false },
-    { id: 5, title: "CSS Grid Layout", isActive: false },
-  ];
+export function AppSidebar({ onChatSelect, onNewChat, currentChatId }) {
+  const [chats, setChats] = useState([]);
+  const [userEmail, setUserEmail] = useState("");
+  const { refreshChats } = useChat();
 
-  const handleNewChat = () => {};
+  useEffect(() => {
+    const email = localStorage.getItem("userEmail");
+    setUserEmail(email);
+    if (email) {
+      fetchChats(email);
+    }
+  }, []);
 
-  const handleChatSelect = (chatId) => {};
+  useEffect(() => {
+    if (userEmail) {
+      fetchChats(userEmail);
+    }
+  }, [refreshChats, userEmail]);
 
-  const handleDeleteChat = (chatId, e) => {};
+  const fetchChats = async (email) => {
+    const response = await fetch(`/api/chat?userEmail=${encodeURIComponent(email)}`);
+    const data = await response.json();
+    setChats(data);
+  };
+  
+  const handleNewChat = async () => {
+    const response = await fetch("/api/chat", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },      body: JSON.stringify({
+        title: "Untitled Chat",
+        userEmail
+      }),
+    });
+    
+    const newChat = await response.json();
+    setChats(prev => [newChat, ...prev]);
+    onNewChat(newChat);
+  };  const handleChatSelect = async (chatId) => {
+    try {
+      const response = await fetch("/api/chat", {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          id: chatId,
+          userEmail
+        }),
+      });
+      
+      const result = await response.json();
+      
+      // Pass the messages immediately to avoid double loading
+      onChatSelect(chatId, result.messages || []);
+    } catch (error) {
+      console.error('Error selecting chat:', error);
+      // Fallback to empty messages if there's an error
+      onChatSelect(chatId, []);
+    }
+  };
+
+  const handleDeleteChat = async (chatId, e) => {
+    e.stopPropagation();
+    
+    await fetch("/api/chat", {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        id: chatId,
+        userEmail
+      }),
+    });
+    
+    setChats(prev => prev.filter(chat => chat._id !== chatId));
+    
+    const remainingChats = chats.filter(chat => chat._id !== chatId);
+    if (remainingChats.length > 0) {
+      handleChatSelect(remainingChats[0]._id);
+    } else {
+      onChatSelect(null, []);
+    }
+  };
 
   return (
     <Sidebar>
@@ -33,17 +109,16 @@ export function AppSidebar() {
           </Button>
           <SidebarGroupLabel>Recent Chats</SidebarGroupLabel>
           <SidebarGroupContent>
-            {" "}
-            <SidebarMenu>
+            {" "}            <SidebarMenu>
               {chats.map((chat) => (
-                <SidebarMenuItem key={chat.id}>
-                  <SidebarMenuButton onClick={() => handleChatSelect(chat.id)} isActive={chat.isActive}>
+                <SidebarMenuItem key={chat._id}>
+                  <SidebarMenuButton onClick={() => handleChatSelect(chat._id)} isActive={chat._id === currentChatId}>
                     <span className="truncate">{chat.title}</span>
                   </SidebarMenuButton>
                   <SidebarMenuAction
                     onClick={(e) => {
                       e.stopPropagation();
-                      handleDeleteChat(chat.id, e);
+                      handleDeleteChat(chat._id, e);
                     }}
                     showOnHover
                   >
